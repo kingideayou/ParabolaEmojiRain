@@ -16,6 +16,7 @@ import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by NeXT on 17/8/29.
@@ -53,7 +54,6 @@ public class EmojiFrameLayout extends FrameLayout {
 
     private void init(@NonNull Context context, @Nullable AttributeSet attrs) {
         //TODO CUSTOM PARAMS
-
         mEmojiSize = DisplayUtils.dp2px(context, EMOJI_SIZE);
     }
 
@@ -61,22 +61,22 @@ public class EmojiFrameLayout extends FrameLayout {
 
         Log.e(TAG, "generateEmojis run ...");
 
-        mWindowHeight = DisplayUtils.getWindowHeight(getContext());
-        mWindowWidth = DisplayUtils.getWindowWidth(getContext());
-
-        mImageViewList.clear();
-
         List<Drawable> drawableList = getDrawableList();
         if (drawableList == null || drawableList.size() == 0) {
             Log.e(TAG, "Emoji list can not be null");
             return null;
         }
 
+        mWindowHeight = DisplayUtils.getWindowHeight(getContext());
+        mWindowWidth = DisplayUtils.getWindowWidth(getContext());
+
+        mImageViewList.clear();
+
         for (int i = 0; i < mEmojiCount; i++) {
-            ImageView emoji = new ImageView(getContext());
+            final ParabolaImageView emoji = new ParabolaImageView(getContext());
             emoji.setImageDrawable(drawableList.get(i % drawableList.size()));
             LayoutParams layoutParams = new LayoutParams(mEmojiSize, mEmojiSize);
-            layoutParams.topMargin = mWindowHeight / 2;
+            layoutParams.topMargin = mWindowHeight;
             layoutParams.leftMargin = mWindowWidth / 2 - mEmojiSize / 2;
             emoji.setLayoutParams(layoutParams);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -84,6 +84,13 @@ public class EmojiFrameLayout extends FrameLayout {
             }
             mImageViewList.add(emoji);
             addView(emoji);
+            emoji.setOnAnimEndListener(new ParabolaImageView.OnAnimEndListener() {
+                @Override
+                public void onAnimEnd() {
+                    removeView(emoji);
+                }
+            });
+            emoji.startAnim((int) (new Random().nextGaussian() * mWindowWidth), mWindowHeight);
         }
         return mImageViewList;
     }
