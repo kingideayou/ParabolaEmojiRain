@@ -5,8 +5,11 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.os.Handler;
 import android.util.AttributeSet;
+import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.ImageView;
+
+import java.util.Random;
 
 public class ParabolaImageView extends ImageView {
     private Context mContext;
@@ -57,6 +60,7 @@ public class ParabolaImageView extends ImageView {
 
             @Override
             public void onAnimationEnd(Animator animation) {
+                setLayerType(View.LAYER_TYPE_NONE, null);
                 if (mOnAnimEndListener != null) {
                     mOnAnimEndListener.onAnimEnd();
                 }
@@ -109,13 +113,14 @@ public class ParabolaImageView extends ImageView {
     }
 
     public void startAnim(final int targetX, final int targetY, int delayTime) {
+        setLayerType(View.LAYER_TYPE_HARDWARE, null);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 mEndX = targetX;
                 mEndY = targetY;
                 mControlX = (mStartX + mEndX) / 2;
-                mControlY = mStartY / 4;
+                mControlY = (int) (mStartY / (3+ (Math.abs(new Random().nextGaussian()))));
                 mValueAnimator.start();
             }
         }, delayTime);

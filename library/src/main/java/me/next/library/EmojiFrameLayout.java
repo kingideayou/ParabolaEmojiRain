@@ -95,7 +95,7 @@ public class EmojiFrameLayout extends FrameLayout {
                 }
             });
 
-            final int delayTime = (int) (Math.abs(new Random().nextGaussian()) * 800);
+            final int delayTime = (int) (Math.abs(new Random().nextGaussian()) * 1000);
             Log.e(TAG, "delayTime : " + delayTime);
             emoji.startAnim((int) (Math.abs(new Random().nextGaussian()) * mWindowWidth), mWindowHeight, delayTime);
         }
