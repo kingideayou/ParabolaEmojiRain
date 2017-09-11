@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if ("doge".equals(editText.getText().toString())) {
-                    emojiFrameLayout.generateEmojis();
+                    emojiFrameLayout.startEmojiRain();
                 }
                 editText.setText("");
             }

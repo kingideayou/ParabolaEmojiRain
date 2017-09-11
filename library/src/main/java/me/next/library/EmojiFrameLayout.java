@@ -57,7 +57,7 @@ public class EmojiFrameLayout extends FrameLayout {
         mEmojiSize = DisplayUtils.dp2px(context, EMOJI_SIZE);
     }
 
-    public List<ImageView> generateEmojis() {
+    public List<ImageView> startEmojiRain() {
 
         List<Drawable> drawableList = getDrawableList();
         if (drawableList == null || drawableList.size() == 0) {
