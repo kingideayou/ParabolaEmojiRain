@@ -27,7 +27,7 @@ emojiFrameLayout.startEmojiRain();
 ![preview](http://ww1.sinaimg.cn/mw690/6db4aff6gy1fjfqq95guhg20a80i80yn.gif)
 
 ## Thanks To
-[https://github.com/Luolc/EmojiRain](https://github.com/Luolc/EmojiRain)
+[https://github.com/Luolc/EmojiRain](https://github.com/Luolc/EmojiRain)  
 [https://github.com/xandone/ParabolaBlast](https://github.com/xandone/ParabolaBlast)
 
 ## License
