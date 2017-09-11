@@ -3,6 +3,7 @@ package me.next.library;
 import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.ImageView;
@@ -39,8 +40,8 @@ public class ParabolaImageView extends ImageView {
 
         mDefaultSize = DisplayUtils.dp2px(mContext, 60);
         mValueAnimator = ValueAnimator.ofFloat(0, 1f);
-        mValueAnimator.setDuration(1200);
-        mValueAnimator.setInterpolator(new AccelerateInterpolator());
+        mValueAnimator.setDuration(1600);
+        mValueAnimator.setInterpolator(new AccelerateInterpolator(.6f));
         mValueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -107,12 +108,17 @@ public class ParabolaImageView extends ImageView {
         mStartY = (int) getY();
     }
 
-    public void startAnim(int targetX, int targetY) {
-        mEndX = targetX;
-        mEndY = targetY;
-        mControlX = (mStartX + mEndX) / 2;
-        mControlY = mStartY - DisplayUtils.dp2px(mContext, 200);
-        mValueAnimator.start();
+    public void startAnim(final int targetX, final int targetY, int delayTime) {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mEndX = targetX;
+                mEndY = targetY;
+                mControlX = (mStartX + mEndX) / 2;
+                mControlY = mStartY / 4;
+                mValueAnimator.start();
+            }
+        }, delayTime);
     }
 
     public void setXY() {

@@ -25,7 +25,7 @@ import java.util.Random;
 public class EmojiFrameLayout extends FrameLayout {
 
     private static final String TAG = EmojiFrameLayout.class.getSimpleName();
-    private static int EMOJI_COUNT = 20;
+    private static int EMOJI_COUNT = 10;
     private static int EMOJI_SIZE = 26;
     private static int MAX_DURATION = 1200;
 
@@ -59,16 +59,20 @@ public class EmojiFrameLayout extends FrameLayout {
 
     public List<ImageView> generateEmojis() {
 
-        Log.e(TAG, "generateEmojis run ...");
-
         List<Drawable> drawableList = getDrawableList();
         if (drawableList == null || drawableList.size() == 0) {
             Log.e(TAG, "Emoji list can not be null");
             return null;
         }
 
-        mWindowHeight = DisplayUtils.getWindowHeight(getContext());
-        mWindowWidth = DisplayUtils.getWindowWidth(getContext());
+        mWindowHeight = getMeasuredHeight();
+        if (mWindowHeight == 0) {
+            mWindowHeight = DisplayUtils.getWindowHeight(getContext());
+        }
+        mWindowWidth = getMeasuredWidth();
+        if (mWindowWidth == 0) {
+            mWindowWidth = DisplayUtils.getWindowWidth(getContext());
+        }
 
         mImageViewList.clear();
 
@@ -76,7 +80,7 @@ public class EmojiFrameLayout extends FrameLayout {
             final ParabolaImageView emoji = new ParabolaImageView(getContext());
             emoji.setImageDrawable(drawableList.get(i % drawableList.size()));
             LayoutParams layoutParams = new LayoutParams(mEmojiSize, mEmojiSize);
-            layoutParams.topMargin = mWindowHeight;
+            layoutParams.topMargin = mWindowHeight + mEmojiSize / 2;
             layoutParams.leftMargin = mWindowWidth / 2 - mEmojiSize / 2;
             emoji.setLayoutParams(layoutParams);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -90,7 +94,10 @@ public class EmojiFrameLayout extends FrameLayout {
                     removeView(emoji);
                 }
             });
-            emoji.startAnim((int) (new Random().nextGaussian() * mWindowWidth), mWindowHeight);
+
+            final int delayTime = (int) (Math.abs(new Random().nextGaussian()) * 800);
+            Log.e(TAG, "delayTime : " + delayTime);
+            emoji.startAnim((int) (Math.abs(new Random().nextGaussian()) * mWindowWidth), mWindowHeight, delayTime);
         }
         return mImageViewList;
     }
