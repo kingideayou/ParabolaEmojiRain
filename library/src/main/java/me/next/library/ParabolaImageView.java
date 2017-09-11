@@ -5,6 +5,7 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.os.Handler;
 import android.util.AttributeSet;
+import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.ImageView;
 
@@ -57,6 +58,7 @@ public class ParabolaImageView extends ImageView {
 
             @Override
             public void onAnimationEnd(Animator animation) {
+                setLayerType(View.LAYER_TYPE_NONE, null);
                 if (mOnAnimEndListener != null) {
                     mOnAnimEndListener.onAnimEnd();
                 }
@@ -109,6 +111,7 @@ public class ParabolaImageView extends ImageView {
     }
 
     public void startAnim(final int targetX, final int targetY, int delayTime) {
+        setLayerType(View.LAYER_TYPE_HARDWARE, null);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
